@@ -1,6 +1,6 @@
 use proc_macro2::TokenStream;
 use quote::{quote, TokenStreamExt};
-use syn::{Data, DataEnum, DeriveInput, Expr, Fields, Ident, Meta};
+use syn::{Data, DeriveInput};
 
 use crate::util::{get_discriminants, get_repr, is_fieldless};
 

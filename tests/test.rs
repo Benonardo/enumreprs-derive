@@ -1,6 +1,4 @@
-use std::error::Error;
-
-use enumreprs::{FromRepr, IntoRepr, FromReprError};
+use enumreprs::{FromRepr, FromReprError, IntoRepr};
 use enumreprs_derive::{FromRepr, IntoRepr};
 
 #[repr(u8)]
@@ -32,7 +30,10 @@ fn fieldless_from() {
     assert_eq!(FieldlessTest::from_repr(1).unwrap(), FieldlessTest::A);
     assert_eq!(FieldlessTest::from_repr(2).unwrap(), FieldlessTest::B);
     assert_eq!(FieldlessTest::from_repr(3).unwrap(), FieldlessTest::C);
-    assert_eq!(FieldlessTest::from_repr(4).unwrap_err(), FromReprError::InvalidVariant(4));
+    assert_eq!(
+        FieldlessTest::from_repr(4).unwrap_err(),
+        FromReprError::InvalidVariant(4)
+    );
 }
 
 #[test]

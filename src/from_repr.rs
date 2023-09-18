@@ -1,4 +1,4 @@
-use proc_macro2::TokenStream;
+use proc_macro2::{TokenStream, Literal};
 use quote::{quote, TokenStreamExt};
 use syn::{Data, DeriveInput};
 
@@ -22,13 +22,14 @@ pub fn from_repr_derive_impl(input: proc_macro::TokenStream) -> proc_macro::Toke
         }
         match_arms
     };
+    let string_name: Literal = Literal::string(name.to_string().as_str());
 
     quote! {
         impl enumreprs::FromRepr<#repr> for #name {
             fn from_repr(repr: #repr) -> std::result::Result<Self, enumreprs::FromReprError<#repr>> {
                 match repr {
                     #match_arms
-                    other => std::result::Result::Err(enumreprs::FromReprError::InvalidVariant(other))
+                    other => std::result::Result::Err(enumreprs::FromReprError::InvalidVariant(other, #string_name.to_owned()))
                 }
             }
         }

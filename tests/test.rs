@@ -32,7 +32,7 @@ fn fieldless_from() {
     assert_eq!(FieldlessTest::from_repr(3).unwrap(), FieldlessTest::C);
     assert_eq!(
         FieldlessTest::from_repr(4).unwrap_err(),
-        FromReprError::InvalidVariant(4)
+        FromReprError::InvalidVariant(4, "FieldlessTest".to_owned())
     );
 }
 

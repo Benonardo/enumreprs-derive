@@ -1,6 +1,6 @@
 [package]
 name = "enumreprs_derive"
-version = "1.0.0"
+version = "1.1.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
@@ -9,7 +9,7 @@ edition = "2021"
 proc-macro = true
 
 [dependencies]
-enumreprs = { git = "https://github.com/Benonardo/enumreprs", version = "1.0.0"}
+enumreprs = { git = "https://github.com/Benonardo/enumreprs", version = "1.1.0"}
 proc-macro2 = "1.*"
 quote = "1.*"
 syn = "2.*"

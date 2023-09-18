@@ -9,7 +9,7 @@ edition = "2021"
 proc-macro = true
 
 [dependencies]
-enumreprs = { path = "../enumreprs" }
+enumreprs = { git = "https://github.com/Benonardo/enumreprs" }
 proc-macro2 = "1.0.67"
 quote = "1.0.33"
 syn = "2.0.35"

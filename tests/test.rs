@@ -2,7 +2,7 @@ use enumreprs::{FromRepr, FromReprError, IntoRepr};
 use enumreprs_derive::{FromRepr, IntoRepr};
 
 #[repr(u8)]
-#[derive(IntoRepr, FromRepr, PartialEq, Debug)]
+#[derive(Clone, Copy, IntoRepr, FromRepr, PartialEq, Debug)]
 pub enum FieldlessTest {
     A = 1,
     B = 2,

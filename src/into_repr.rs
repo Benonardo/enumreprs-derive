@@ -15,10 +15,16 @@ pub fn into_repr_derive_impl(input: proc_macro::TokenStream) -> proc_macro::Toke
         Some(stream) => stream,
         None => match_body(data),
     };
+    let copy_bound = if is_fieldless(data) {
+        quote!(where #name: Copy)
+    } else {
+        TokenStream::new()
+    };
 
     quote! {
-        impl enumreprs::IntoRepr<#repr> for #name {
-            fn into_repr(self) -> #repr {
+        impl enumreprs::IntoRepr<#repr> for #name
+        #copy_bound {
+            fn into_repr(&self) -> #repr {
                 #body
             }
         }
@@ -28,7 +34,7 @@ pub fn into_repr_derive_impl(input: proc_macro::TokenStream) -> proc_macro::Toke
 
 fn check_fieldless(data: &DataEnum, repr: &TokenStream) -> Option<TokenStream> {
     if is_fieldless(data) {
-        Some(quote!(self as #repr))
+        Some(quote!(*self as #repr))
     } else {
         None
     }
@@ -40,9 +46,9 @@ fn match_body(data: &DataEnum) -> TokenStream {
         let mut match_arms: TokenStream = TokenStream::new();
         for (ident, expr, fields) in discriminants {
             match_arms.append_all(match fields {
-                Fields::Unit => quote!(Self::#ident => #expr,),
-                Fields::Unnamed(_) => quote!(Self::#ident(..) => #expr,),
-                Fields::Named(_) => quote!(Self::#ident {..} => #expr,),
+                Fields::Unit => quote!(&Self::#ident => #expr,),
+                Fields::Unnamed(_) => quote!(&Self::#ident(..) => #expr,),
+                Fields::Named(_) => quote!(&Self::#ident {..} => #expr,),
             });
         }
         match_arms

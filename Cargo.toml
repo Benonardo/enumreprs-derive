@@ -10,6 +10,6 @@ proc-macro = true
 
 [dependencies]
 enumreprs = { git = "https://github.com/Benonardo/enumreprs" }
-proc-macro2 = "1.0.67"
-quote = "1.0.33"
-syn = "2.0.35"
+proc-macro2 = "1.*"
+quote = "1.*"
+syn = "2.*"

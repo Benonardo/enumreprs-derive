@@ -1,17 +1,16 @@
 use proc_macro2::{TokenStream, Literal};
+use proc_macro_error::{abort, abort_call_site};
 use quote::{quote, TokenStreamExt};
 use syn::{Data, DeriveInput};
 
-use crate::util::{get_discriminants, get_repr, is_fieldless};
+use crate::util::{get_discriminants, get_repr, assert_fieldless};
 
 pub fn from_repr_derive_impl(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let ast: DeriveInput = syn::parse(input).unwrap();
     let Data::Enum(ref data) = ast.data else {
-        panic!("Not an enum");
+        abort_call_site!("Not an enum");
     };
-    if !is_fieldless(data) {
-        panic!("Enum is not fieldless")
-    }
+    assert_fieldless(data);
     let name = &ast.ident;
     let repr = get_repr(&ast);
     let discriminants = get_discriminants(data);

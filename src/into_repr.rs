@@ -1,4 +1,5 @@
 use proc_macro2::TokenStream;
+use proc_macro_error::abort_call_site;
 use quote::{quote, TokenStreamExt};
 use syn::{Data, DataEnum, DeriveInput, Fields};
 
@@ -7,7 +8,7 @@ use crate::util::{get_discriminants, get_repr, is_fieldless};
 pub fn into_repr_derive_impl(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let ast: DeriveInput = syn::parse(input).unwrap();
     let Data::Enum(ref data) = ast.data else {
-        panic!("Not an enum");
+        abort_call_site!("Not an enum");
     };
     let name = &ast.ident;
     let repr = get_repr(&ast);
